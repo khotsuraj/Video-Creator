@@ -1,0 +1,76 @@
+<UserControl x:Class="KaraokeVideoCreator.UI.Controls.VerticalTimelineControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="360">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <Grid Background="#FFFFFF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Timeline Header Strip -->
+        <Border Grid.Row="0" Background="{StaticResource ToolbarBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="10,6">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="VERTICAL TIMELINE" FontWeight="Bold" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Text=" (Preview Waveform)" FontSize="10" Foreground="{StaticResource TextDisabledBrush}" VerticalAlignment="Center" Margin="4,0,0,0" ToolTip="Waveform is generated as a visual preview estimate."/>
+                </StackPanel>
+                <TextBlock Text="{Binding CurrentPositionFormatted}" FontWeight="Bold" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Vertical Scrollable Timeline Area -->
+        <Grid Grid.Row="1">
+            <ScrollViewer x:Name="TimelineScrollViewer" 
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Disabled"
+                          Background="#F8FAFC">
+                <Canvas x:Name="TimelineCanvas" 
+                        Width="320" 
+                        Height="1600" 
+                        Background="#FFFFFF"
+                        MouseDown="OnCanvasMouseDown"
+                        MouseMove="OnCanvasMouseMove"
+                        MouseUp="OnCanvasMouseUp"
+                        Cursor="Hand">
+
+                    <!-- Center Guideline -->
+                    <Line x:Name="CenterAxisLine" X1="160" Y1="0" X2="160" Y2="1600" Stroke="#E2E8F0" StrokeThickness="1" StrokeDashArray="4 4"/>
+
+                    <!-- Waveform Canvas & Time Ticks (drawn in code-behind) -->
+
+                    <!-- Moving Horizontal Playhead Container -->
+                    <Canvas x:Name="PlayheadContainer" Canvas.Left="0" Canvas.Top="0" Width="320" Height="24" Panel.ZIndex="10">
+                        <!-- Full Horizontal Playhead Line -->
+                        <Line X1="10" Y1="12" X2="310" Y2="12" Stroke="{StaticResource PlayheadBrush}" StrokeThickness="2"/>
+                        
+                        <!-- Center Circle Playhead Indicator -->
+                        <Ellipse Width="12" Height="12" Fill="{StaticResource PlayheadBrush}" Canvas.Left="154" Canvas.Top="6"/>
+
+                        <!-- Time Stamp Tag over Playhead -->
+                        <Border Background="{StaticResource PlayheadBrush}" CornerRadius="3" Padding="6,2" Canvas.Left="125" Canvas.Top="-14">
+                            <TextBlock x:Name="PlayheadTimeText" Text="00:00.000" Foreground="#FFFFFF" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        </Border>
+                    </Canvas>
+                </Canvas>
+            </ScrollViewer>
+
+            <!-- Empty State Overlay when no audio is loaded -->
+            <Border Background="{StaticResource PanelBackgroundBrush}" Visibility="{Binding HasAudio, Converter={StaticResource InverseBoolToVis}}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Path Data="{StaticResource IconImport}" Fill="{StaticResource TextDisabledBrush}" Stretch="Uniform" Width="36" Height="36" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    <TextBlock Text="No Audio Track Loaded" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                    <TextBlock Text="Import an audio file to display the vertical song timeline." FontSize="11" Foreground="{StaticResource TextDisabledBrush}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

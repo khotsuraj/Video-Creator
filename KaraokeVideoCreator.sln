@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokeVideoCreator.Domain", "KaraokeVideoCreator.Domain\KaraokeVideoCreator.Domain.csproj", "{58168895-AB20-4FAF-AAC8-94C3F3891297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokeVideoCreator.Infrastructure", "KaraokeVideoCreator.Infrastructure\KaraokeVideoCreator.Infrastructure.csproj", "{FFFCDC40-58F0-4963-9055-F4E8814243F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokeVideoCreator.Application", "KaraokeVideoCreator.Application\KaraokeVideoCreator.Application.csproj", "{3F223D69-1FE2-4FDF-BA06-787EDD894ABB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokeVideoCreator.UI", "KaraokeVideoCreator.UI\KaraokeVideoCreator.UI.csproj", "{866B6D51-214D-48F1-AA17-932B3AE8C891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokeVideoCreator.Tests", "KaraokeVideoCreator.Tests\KaraokeVideoCreator.Tests.csproj", "{E777CF97-4794-40F7-9CD4-6832793BE5A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58168895-AB20-4FAF-AAC8-94C3F3891297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58168895-AB20-4FAF-AAC8-94C3F3891297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58168895-AB20-4FAF-AAC8-94C3F3891297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58168895-AB20-4FAF-AAC8-94C3F3891297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFCDC40-58F0-4963-9055-F4E8814243F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFCDC40-58F0-4963-9055-F4E8814243F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFFCDC40-58F0-4963-9055-F4E8814243F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFCDC40-58F0-4963-9055-F4E8814243F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F223D69-1FE2-4FDF-BA06-787EDD894ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F223D69-1FE2-4FDF-BA06-787EDD894ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F223D69-1FE2-4FDF-BA06-787EDD894ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F223D69-1FE2-4FDF-BA06-787EDD894ABB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{866B6D51-214D-48F1-AA17-932B3AE8C891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{866B6D51-214D-48F1-AA17-932B3AE8C891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{866B6D51-214D-48F1-AA17-932B3AE8C891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{866B6D51-214D-48F1-AA17-932B3AE8C891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E777CF97-4794-40F7-9CD4-6832793BE5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E777CF97-4794-40F7-9CD4-6832793BE5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E777CF97-4794-40F7-9CD4-6832793BE5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E777CF97-4794-40F7-9CD4-6832793BE5A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

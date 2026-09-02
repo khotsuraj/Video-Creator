@@ -1,0 +1,11 @@
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\bin\Release\net8.0-windows\KaraokeVideoCreator.Domain.deps.json
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\bin\Release\net8.0-windows\KaraokeVideoCreator.Domain.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\bin\Release\net8.0-windows\KaraokeVideoCreator.Domain.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\KaraokeVideoCreator.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\KaraokeVideoCreator.Domain.AssemblyInfoInputs.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\KaraokeVideoCreator.Domain.AssemblyInfo.cs
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\KaraokeVideoCreator.Domain.csproj.CoreCompileInputs.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\KaraokeVideoCreator.Domain.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\refint\KaraokeVideoCreator.Domain.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\KaraokeVideoCreator.Domain.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Domain\obj\Release\net8.0-windows\ref\KaraokeVideoCreator.Domain.dll

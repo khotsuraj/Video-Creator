@@ -1,0 +1,407 @@
+<Window x:Class="KaraokeVideoCreator.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:KaraokeVideoCreator.UI.Controls"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle}" Height="900" Width="1280"
+        MinHeight="720" MinWidth="1024"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBackgroundBrush}" 
+        Foreground="{StaticResource TextPrimaryBrush}">
+
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewCommand}"/>
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control+Shift" Command="{Binding SaveAsCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Top Menu Bar -->
+            <RowDefinition Height="Auto"/> <!-- Toolbar -->
+            <RowDefinition Height="Auto"/> <!-- Workspace Navigation Bar -->
+            <RowDefinition Height="*"/>    <!-- Main 3-Panel Editor Workspace -->
+            <RowDefinition Height="180"/>  <!-- Bottom Horizontal Timeline -->
+            <RowDefinition Height="Auto"/> <!-- Audio Playback Bar -->
+            <RowDefinition Height="Auto"/> <!-- Status Bar -->
+        </Grid.RowDefinitions>
+
+        <!-- 1. Top Menu Bar -->
+        <Menu Grid.Row="0" Background="{StaticResource MenuBackgroundBrush}" Foreground="{StaticResource MenuTextBrush}">
+            <MenuItem Header="_File" Foreground="{StaticResource MenuTextBrush}">
+                <MenuItem Header="_New Project" Command="{Binding NewCommand}" InputGestureText="Ctrl+N"/>
+                <MenuItem Header="_Open Project..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O"/>
+                <Separator/>
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Save _As..." Command="{Binding SaveAsCommand}" InputGestureText="Ctrl+Shift+S"/>
+                <Separator/>
+                <MenuItem Header="_Recent Projects" ItemsSource="{Binding RecentProjects}">
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem Header="{Binding Name}" 
+                                      Command="{Binding DataContext.OpenRecentCommand, RelativeSource={RelativeSource AncestorType=Menu}}"
+                                      CommandParameter="{Binding FilePath}"/>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="E_xit" Click="OnExitClick"/>
+            </MenuItem>
+
+            <MenuItem Header="_Edit" Foreground="{StaticResource MenuTextBrush}">
+                <MenuItem Header="Undo" IsEnabled="False" ToolTip="Scheduled for Phase 2"/>
+                <MenuItem Header="Redo" IsEnabled="False" ToolTip="Scheduled for Phase 2"/>
+            </MenuItem>
+
+            <MenuItem Header="_View" Foreground="{StaticResource MenuTextBrush}">
+                <MenuItem Header="Zoom In Timeline" Command="{Binding ZoomInCommand}"/>
+                <MenuItem Header="Zoom Out Timeline" Command="{Binding ZoomOutCommand}"/>
+            </MenuItem>
+
+            <MenuItem Header="_Project" Foreground="{StaticResource MenuTextBrush}">
+                <MenuItem Header="Import Audio File..." Command="{Binding ImportAudioCommand}"/>
+                <Separator/>
+                <MenuItem Header="Export Video..." Command="{Binding ExportVideoCommand}"/>
+            </MenuItem>
+
+            <MenuItem Header="_Help" Foreground="{StaticResource MenuTextBrush}">
+                <MenuItem Header="_About Karaoke Video Creator" Click="OnAboutClick"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- 2. Toolbar -->
+        <Border Grid.Row="1" Background="{StaticResource ToolbarBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,1,0,1" Padding="8,4">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource ToolbarButtonStyle}" Command="{Binding NewCommand}" ToolTip="New Project (Ctrl+N)">
+                    <Path Data="{StaticResource IconNew}" Fill="{StaticResource TextPrimaryBrush}" Stretch="Uniform" Width="14" Height="14"/>
+                </Button>
+                <Button Style="{StaticResource ToolbarButtonStyle}" Command="{Binding OpenCommand}" ToolTip="Open Project (Ctrl+O)">
+                    <Path Data="{StaticResource IconOpen}" Fill="{StaticResource TextPrimaryBrush}" Stretch="Uniform" Width="14" Height="14"/>
+                </Button>
+                <Button Style="{StaticResource ToolbarButtonStyle}" Command="{Binding SaveCommand}" ToolTip="Save Project (Ctrl+S)">
+                    <Path Data="{StaticResource IconSave}" Fill="{StaticResource TextPrimaryBrush}" Stretch="Uniform" Width="14" Height="14"/>
+                </Button>
+
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="6,2"/>
+
+                <Button Style="{StaticResource ToolbarButtonStyle}" Command="{Binding ImportAudioCommand}" ToolTip="Import Audio Track">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource IconImport}" Fill="{StaticResource ButtonBackgroundBrush}" Stretch="Uniform" Width="14" Height="14" Margin="0,0,4,0"/>
+                        <TextBlock Text="Import Song" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="6,2"/>
+
+                <Button Style="{StaticResource ToolbarButtonStyle}" IsEnabled="False" ToolTip="Undo (Phase 2)">
+                    <TextBlock Text="↩ Undo" FontSize="11" Foreground="{StaticResource TextDisabledBrush}"/>
+                </Button>
+                <Button Style="{StaticResource ToolbarButtonStyle}" IsEnabled="False" ToolTip="Redo (Phase 2)">
+                    <TextBlock Text="↪ Redo" FontSize="11" Foreground="{StaticResource TextDisabledBrush}"/>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- 3. Workspace Navigation Bar -->
+        <Border Grid.Row="2" Background="{StaticResource PanelBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="12,0">
+            <DockPanel LastChildFill="False">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <!-- Song Tab -->
+                    <Border Background="{StaticResource ActiveTabBackgroundBrush}" BorderBrush="{StaticResource ActiveTabBorderBrush}" BorderThickness="0,0,0,2" Padding="16,8" Margin="0,0,2,0">
+                        <TextBlock Text="Song" FontSize="12" FontWeight="Bold" Foreground="#000000"/>
+                    </Border>
+                    <!-- Lyrics Tab -->
+                    <Border Background="Transparent" Padding="16,8" Margin="0,0,2,0">
+                        <TextBlock Text="Lyrics" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </Border>
+                    <!-- Sync Tab Button -->
+                    <Button Command="{Binding ToggleSyncModeCommand}" Style="{StaticResource ToolbarButtonStyle}" Padding="16,6" Margin="0,0,2,0">
+                        <TextBlock Text="Sync Mode (TAB)" FontSize="12" FontWeight="Bold" Foreground="#000000"/>
+                    </Button>
+                    <!-- Design Tab -->
+                    <Border Background="Transparent" Padding="16,8" Margin="0,0,2,0">
+                        <TextBlock Text="Design" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextDisabledBrush}"/>
+                    </Border>
+                    <!-- Export Tab Button -->
+                    <Button Command="{Binding ExportVideoCommand}" Style="{StaticResource ToolbarButtonStyle}" Padding="16,6">
+                        <TextBlock Text="Export Video" FontSize="12" FontWeight="SemiBold" Foreground="#000000"/>
+                    </Button>
+                </StackPanel>
+
+                <!-- Sync Mode Status Badge & Reset Shortcuts -->
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                    <Border Background="#FEF08A" BorderBrush="#EAB308" BorderThickness="1" CornerRadius="3" Padding="8,3" Margin="0,0,8,0">
+                        <TextBlock Text="{Binding SyncStatusText}" FontSize="11" FontWeight="Bold" Foreground="#854D0E"/>
+                    </Border>
+                    <Button Command="{Binding ResetCurrentWordCommand}" ToolTip="Reset current word timing" Style="{StaticResource ToolbarButtonStyle}" Padding="6,2" Margin="0,0,2,0">
+                        <TextBlock Text="Reset Word" FontSize="11" Foreground="#000000"/>
+                    </Button>
+                    <Button Command="{Binding ResetCurrentLineCommand}" ToolTip="Reset current line timing" Style="{StaticResource ToolbarButtonStyle}" Padding="6,2" Margin="0,0,2,0">
+                        <TextBlock Text="Reset Line" FontSize="11" Foreground="#000000"/>
+                    </Button>
+                    <Button Command="{Binding ResetAllTimingCommand}" ToolTip="Reset all word timing" Style="{StaticResource ToolbarButtonStyle}" Padding="6,2">
+                        <TextBlock Text="Reset All" FontSize="11" Foreground="#000000"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- 4. Main 3-Panel Editor Workspace -->
+        <Grid Grid.Row="3" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*" MinWidth="200"/> <!-- LEFT: Project Media Tree (20%) -->
+                <ColumnDefinition Width="60*" MinWidth="480"/> <!-- CENTER: 16:9 Preview + Lyrics Workspace (60%) -->
+                <ColumnDefinition Width="20*" MinWidth="200"/> <!-- RIGHT: Properties Inspector (20%) -->
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT PANEL: Project Media Tree -->
+            <Border Grid.Column="0" Background="{StaticResource PanelBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="3" Margin="0,0,4,0">
+                <controls:SongLoaderControl DataContext="{Binding}"/>
+            </Border>
+
+            <!-- CENTER PANEL: 16:9 Video Canvas + Lyrics Workspace -->
+            <Grid Grid.Column="1" Margin="4,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55*"/> <!-- Top 16:9 Video Preview -->
+                    <RowDefinition Height="45*"/> <!-- Bottom Lyrics Workspace -->
+                </Grid.RowDefinitions>
+
+                <!-- Top 16:9 Video Preview Canvas Container -->
+                <Border Grid.Row="0" Background="{StaticResource PanelBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="3" Margin="0,0,0,4">
+                    <Grid Background="{StaticResource PreviewBackgroundBrush}">
+                        <!-- 16:9 Aspect Ratio Canvas -->
+                        <Viewbox Stretch="Uniform">
+                            <Grid Width="1920" Height="1080" Background="{StaticResource PreviewSurfaceBrush}">
+                                <Grid Margin="60">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,20,0,0">
+                                        <TextBlock Text="KARAOKE VIDEO PREVIEW" FontSize="16" FontWeight="Bold" Foreground="{StaticResource PreviewTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <!-- Devanagari & Unicode Live Lyrics Render Surface -->
+                                    <TextBlock Grid.Row="1" 
+                                               Text="{Binding PreviewLyricText}" 
+                                               FontFamily="{Binding SelectedFontFamily}" 
+                                               FontSize="{Binding SelectedFontSize}" 
+                                               FontWeight="{Binding SelectedFontWeight}" 
+                                               FontStyle="{Binding SelectedFontStyle}" 
+                                               Foreground="#FFFFFF" 
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap"/>
+                                </Grid>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </Border>
+
+                <!-- Bottom Center: Lyrics Workspace Panel -->
+                <Border Grid.Row="1" Background="{StaticResource PanelBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="3" Margin="0,4,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Panel Header -->
+                        <Border Grid.Row="0" Background="{StaticResource ToolbarBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="10,6">
+                            <DockPanel>
+                                <TextBlock Text="LYRICS WORKSPACE" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                <TextBlock Text="{Binding LineCount, StringFormat='{}{0} Lines'}" FontSize="11" Foreground="{StaticResource TextDisabledBrush}" HorizontalAlignment="Right"/>
+                            </DockPanel>
+                        </Border>
+
+                        <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="4">
+                            <TabItem Header="Text Editor" Padding="10,4">
+                                <TextBox Text="{Binding LyricsText, UpdateSourceTrigger=PropertyChanged}" 
+                                         AcceptsReturn="True" 
+                                         AcceptsTab="True" 
+                                         TextWrapping="NoWrap" 
+                                         VerticalScrollBarVisibility="Auto" 
+                                         HorizontalScrollBarVisibility="Auto" 
+                                         FontFamily="{Binding SelectedFontFamily}" 
+                                         FontSize="13" 
+                                         Padding="8" 
+                                         Margin="0,4,0,0"/>
+                            </TabItem>
+                            <TabItem Header="Lyrics Lines List" Padding="10,4">
+                                <Grid Margin="0,4,0,0">
+                                    <ListBox ItemsSource="{Binding NumberedLyricLines}" 
+                                             SelectedItem="{Binding SelectedLyricItem}"
+                                             Background="{StaticResource WindowBackgroundBrush}" 
+                                             Foreground="{StaticResource TextPrimaryBrush}" 
+                                             BorderBrush="{StaticResource CardBorderBrush}" 
+                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                             FontFamily="{Binding SelectedFontFamily}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="4,2">
+                                                    <TextBlock Text="{Binding LineNumber, StringFormat='[{0:D2}] '}" Foreground="{StaticResource TextDisabledBrush}" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding Text}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                    <!-- Empty state overlay if no lines -->
+                                    <Border Background="{StaticResource InputBackgroundBrush}" Visibility="{Binding NumberedLyricLines.Count, Converter={StaticResource InverseBoolToVis}}">
+                                        <TextBlock Text="No lyrics entered. Type or paste lyrics in Text Editor tab." 
+                                                   Foreground="{StaticResource TextDisabledBrush}" 
+                                                   HorizontalAlignment="Center" 
+                                                   VerticalAlignment="Center" 
+                                                   FontStyle="Italic"/>
+                                    </Border>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- RIGHT PANEL: Properties Inspector -->
+            <Border Grid.Column="2" Background="{StaticResource PanelBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="3" Margin="4,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="{StaticResource ToolbarBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="10,6">
+                        <TextBlock Text="PROPERTIES" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="10">
+                            <!-- Project Settings -->
+                            <TextBlock Text="Song Title" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <TextBox Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="Artist" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <TextBox Text="{Binding Artist, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="Album" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <TextBox Text="{Binding Album, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16"/>
+
+                            <Separator Margin="0,0,0,12"/>
+
+                            <!-- Video Render Settings -->
+                            <TextBlock Text="VIDEO SETTINGS" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+
+                            <DockPanel Margin="0,0,0,8">
+                                <TextBlock Text="Width (px)" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding Width}" Width="60" HorizontalAlignment="Right"/>
+                            </DockPanel>
+
+                            <DockPanel Margin="0,0,0,8">
+                                <TextBlock Text="Height (px)" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding Height}" Width="60" HorizontalAlignment="Right"/>
+                            </DockPanel>
+
+                            <DockPanel Margin="0,0,0,8">
+                                <TextBlock Text="FPS" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding Fps}" Width="60" HorizontalAlignment="Right"/>
+                            </DockPanel>
+
+                            <Separator Margin="0,4,0,12"/>
+
+                            <!-- Lyric Style Settings -->
+                            <TextBlock Text="LYRIC FONT &amp; STYLE" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+
+                            <TextBlock Text="Font Family" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <ComboBox ItemsSource="{Binding AvailableFontFamilies}" SelectedItem="{Binding SelectedFontFamily}" Margin="0,0,0,10"/>
+
+                            <DockPanel Margin="0,0,0,8">
+                                <TextBlock Text="Font Size (pt)" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                <ComboBox ItemsSource="{Binding AvailableFontSizes}" SelectedItem="{Binding SelectedFontSize}" Width="70" HorizontalAlignment="Right"/>
+                            </DockPanel>
+
+                            <DockPanel Margin="0,0,0,8">
+                                <TextBlock Text="Weight" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                <ComboBox ItemsSource="{Binding AvailableFontWeights}" SelectedItem="{Binding SelectedFontWeight}" Width="80" HorizontalAlignment="Right"/>
+                            </DockPanel>
+
+                            <DockPanel Margin="0,0,0,8">
+                                <TextBlock Text="Style" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                <ComboBox ItemsSource="{Binding AvailableFontStyles}" SelectedItem="{Binding SelectedFontStyle}" Width="80" HorizontalAlignment="Right"/>
+                            </DockPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 5. Bottom Horizontal Timeline -->
+        <Border Grid.Row="4" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,1,0,1">
+            <controls:HorizontalTimelineControl DataContext="{Binding}"/>
+        </Border>
+
+        <!-- 6. Bottom Audio Playback Bar -->
+        <Border Grid.Row="5" Background="{StaticResource ToolbarBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="12,6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/> <!-- Playback Buttons -->
+                    <ColumnDefinition Width="*"/>    <!-- Spacer -->
+                    <ColumnDefinition Width="Auto"/> <!-- Speed & Volume Controls -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Transport Controls & Readout -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding PlayCommand}" Background="{StaticResource PrimaryAccentButtonBrush}" Padding="14,5" Margin="0,0,4,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Data="{StaticResource IconPlay}" Fill="#000000" Stretch="Uniform" Width="12" Height="12" Margin="0,0,4,0"/>
+                            <TextBlock Text="Play" FontSize="11" FontWeight="Bold" Foreground="#000000"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding PauseCommand}" Padding="12,5" Margin="0,0,4,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Data="{StaticResource IconPause}" Fill="#000000" Stretch="Uniform" Width="12" Height="12" Margin="0,0,4,0"/>
+                            <TextBlock Text="Pause" FontSize="11" Foreground="#000000"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding StopCommand}" Padding="12,5" Margin="0,0,12,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Data="{StaticResource IconStop}" Fill="#000000" Stretch="Uniform" Width="12" Height="12" Margin="0,0,4,0"/>
+                            <TextBlock Text="Stop" FontSize="11" Foreground="#000000"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Time Readout with Milliseconds: 00:32.450 / 03:24.000 -->
+                    <Border Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource InputBorderBrush}" BorderThickness="1" CornerRadius="2" Padding="8,3" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding CurrentPositionFormatted}" FontFamily="Consolas, Cascadia Code" FontWeight="Bold" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}"/>
+                    </Border>
+                </StackPanel>
+
+                <!-- Speed & Volume Controls -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Speed:" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                    <ComboBox ItemsSource="{Binding PlaybackSpeeds}" SelectedItem="{Binding PlaybackSpeed}" Width="64" Margin="0,0,14,0" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="Volume:" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                    <Slider Width="90" Minimum="0.0" Maximum="1.0" Value="{Binding Volume}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 7. Status Bar -->
+        <StatusBar Grid.Row="6" Background="{StaticResource StatusBarBackgroundBrush}" Foreground="{StaticResource StatusBarTextBrush}" Padding="8,3">
+            <StatusBarItem>
+                <TextBlock Text="{Binding WindowTitle}"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Text="Karaoke Video Creator — Ready"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,0 +1,20 @@
+﻿KaraokeVideoCreator.UI
+1.0.0.0
+
+winexe
+C#
+.cs
+e:\Gemini\Video Creator\KaraokeVideoCreator.UI\obj\Debug\net8.0-windows\
+KaraokeVideoCreator.UI
+none
+false
+TRACE;DEBUG;NET;NET8_0;NETCOREAPP
+e:\Gemini\Video Creator\KaraokeVideoCreator.UI\App.xaml
+7-1304750807
+
+11-1471033874
+216-51021878
+Controls\HorizontalTimelineControl.xaml;Controls\SongLoaderControl.xaml;Controls\VerticalTimelineControl.xaml;MainWindow.xaml;Theme\DarkTheme.xaml;Theme\Icons.xaml;Theme\LightTheme.xaml;
+
+True
+

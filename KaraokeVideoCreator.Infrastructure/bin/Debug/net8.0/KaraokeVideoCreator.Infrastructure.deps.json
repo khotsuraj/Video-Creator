@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "KaraokeVideoCreator.Infrastructure/1.0.0": {
+        "dependencies": {
+          "KaraokeVideoCreator.Domain": "1.0.0"
+        },
+        "runtime": {
+          "KaraokeVideoCreator.Infrastructure.dll": {}
+        }
+      },
+      "KaraokeVideoCreator.Domain/1.0.0": {
+        "runtime": {
+          "KaraokeVideoCreator.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "KaraokeVideoCreator.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "KaraokeVideoCreator.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

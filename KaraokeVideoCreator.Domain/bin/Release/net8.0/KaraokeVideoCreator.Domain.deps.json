@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "KaraokeVideoCreator.Domain/1.0.0": {
+        "runtime": {
+          "KaraokeVideoCreator.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "KaraokeVideoCreator.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

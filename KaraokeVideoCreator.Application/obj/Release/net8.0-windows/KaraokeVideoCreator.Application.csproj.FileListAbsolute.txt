@@ -1,0 +1,17 @@
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0-windows\KaraokeVideoCreator.Application.deps.json
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0-windows\KaraokeVideoCreator.Application.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0-windows\KaraokeVideoCreator.Application.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0-windows\KaraokeVideoCreator.Domain.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0-windows\KaraokeVideoCreator.Infrastructure.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0-windows\KaraokeVideoCreator.Domain.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0-windows\KaraokeVideoCreator.Infrastructure.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeVideoCreator.Application.csproj.AssemblyReference.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeVideoCreator.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeVideoCreator.Application.AssemblyInfoInputs.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeVideoCreator.Application.AssemblyInfo.cs
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeVideoCreator.Application.csproj.CoreCompileInputs.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeV.0FFCBE26.Up2Date
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeVideoCreator.Application.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\refint\KaraokeVideoCreator.Application.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\KaraokeVideoCreator.Application.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0-windows\ref\KaraokeVideoCreator.Application.dll

@@ -1,0 +1,17 @@
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeVideoCreator.Application.csproj.AssemblyReference.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeVideoCreator.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeVideoCreator.Application.AssemblyInfoInputs.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeVideoCreator.Application.AssemblyInfo.cs
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeVideoCreator.Application.csproj.CoreCompileInputs.cache
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0\KaraokeVideoCreator.Application.deps.json
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0\KaraokeVideoCreator.Application.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0\KaraokeVideoCreator.Application.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0\KaraokeVideoCreator.Domain.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0\KaraokeVideoCreator.Infrastructure.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0\KaraokeVideoCreator.Domain.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\bin\Release\net8.0\KaraokeVideoCreator.Infrastructure.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeV.0FFCBE26.Up2Date
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeVideoCreator.Application.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\refint\KaraokeVideoCreator.Application.dll
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\KaraokeVideoCreator.Application.pdb
+E:\Gemini\Video Creator\KaraokeVideoCreator.Application\obj\Release\net8.0\ref\KaraokeVideoCreator.Application.dll
